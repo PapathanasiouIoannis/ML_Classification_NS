@@ -45,7 +45,7 @@ DATA_FILE = os.path.join(DATA_DIR, "thesis_dataset.csv")
 
 def main():
     print("===============================================================")
-    print("   THESIS PIPELINE: NEUTRON STAR EOS INFERENCE ORCHESTRATOR    ")
+    print("   Neutron star classification model   ")
     print("===============================================================")
 
     # 1. Directory Setup
@@ -171,7 +171,7 @@ def main():
     plot_surface_density(df)
     
     print("\n===============================================================")
-    print("             PIPELINE COMPLETED SUCCESSFULLY                   ")
+    print("             Classification completed succesfully                ")
     print("===============================================================")
 
 if __name__ == "__main__":
