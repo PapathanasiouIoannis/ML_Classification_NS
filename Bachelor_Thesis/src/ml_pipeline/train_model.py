@@ -69,7 +69,7 @@ def train_model(df):
         'random_state': 42
     }
 
-    # Strict Configuration (Model Geo)
+    # Strict Configuration (Model Geo) - When trained to identical parameters with the rest of the models, it suffered overfitting.
     # Limited to small depth as it only uses Mass and Radius.
     rf_params_geo = rf_params_base.copy()
     rf_params_geo.update({
@@ -137,7 +137,7 @@ def train_model(df):
     # 6. COMPATIBILITY PATCHING
     # ==========================================
     # Sklearn's CalibratedClassifierCV does not expose feature_importances_ directly.
-    # We aggregate them from the underlying base estimators to allow SHAP/Importance plotting.
+    # We aggregate them from the underlying base estimators to allow SHAP(SHAP NOT IN THESIS, JUST TESTING)/Importance plotting.
     
     if 'D' in models:
         rf_d_cal = models['D']
