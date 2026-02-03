@@ -4,12 +4,6 @@
 # Description:
 #   Computes the derivatives for the Tolman-Oppenheimer-Volkoff (TOV) equations
 #   coupled with the Tidal Deformability Riccati equation.
-#
-# Cleaned & Refactored:
-#   - Replaced hardcoded physics constants with `src.const.CONSTANTS`.
-#   - Replaced SLy crust transition thresholds with centralized values.
-#   - Unified safe pressure floor using `TOV_P_MIN_SAFE`.
-#   - Added comments explaining the geometric unit conversions and causality clamps.
 # ==============================================================================
 
 import numpy as np
