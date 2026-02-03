@@ -6,9 +6,6 @@
 #   Acts as a dispatcher that routes the compute task to the appropriate 
 #   physics generation engine (Hadronic or Quark) based on the task tuple.
 #
-# Cleaned & Refactored:
-#   - Removed unused imports.
-#   - Standardized docstrings for clarity.
 # ==============================================================================
 
 from src.physics.worker_hadronic_gen import worker_hadronic_gen
