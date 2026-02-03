@@ -4,7 +4,6 @@
 # Description:
 #   Integrates the TOV equations over a range of central pressures to generate
 #   a full Mass-Radius-Lambda sequence (an EoS curve).
-#
 # ==============================================================================
 
 import numpy as np
