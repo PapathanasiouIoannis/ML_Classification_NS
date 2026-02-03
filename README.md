@@ -53,7 +53,7 @@ The internal composition of neutron stars remains one of the greatest unknowns i
 │   ├── physics/              # Physics kernel (EoS, TOV, CFL)
 │   ├── ml_pipeline/          # RF Training, Validation, Inference
 │   └── visualize/            # Plotting logic & Style config
-└── Thesis.tex                # (Optional) Source for the manuscript
+
 ```
 
 ##  Installation
