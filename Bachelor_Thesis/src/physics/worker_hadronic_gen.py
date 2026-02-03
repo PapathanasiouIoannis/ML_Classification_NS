@@ -10,11 +10,6 @@
 #   3. Determines 'delta' such that the resulting star lands in a specific 
 #      mass range (defined in CONSTANTS), minimizing rejection rate.
 #   4. Solves the TOV equations and applies strict causality/radius filters.
-#
-# Cleaned & Refactored:
-#   - Integrated `src.const.CONSTANTS` for physics targets and limits.
-#   - Replaced hardcoded transition pressures with centralized constants.
-#   - Standardized error handling and comments.
 # ==============================================================================
 
 import numpy as np
@@ -74,7 +69,7 @@ def worker_hadronic_gen(n_curves_to_gen, baselines, seed_offset, batch_idx):
         # Calculate Weighted Average of parent maximum masses
         base_max_m = w * baselines[nA] + (1-w) * baselines[nB]
         
-        # --- THE MATH TRICK (Inverse Sampling) ---
+        # Inverse Sampling
         # Target = Base * (1 + delta)
         # Therefore: delta = (Target / Base) - 1
         
