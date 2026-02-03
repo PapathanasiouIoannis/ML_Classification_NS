@@ -7,7 +7,7 @@ ML pipeline distinguishing Hadronic vs. Quark Stars. Generates 20k+ synthetic Eo
 # Machine Learning Classification of Neutron Star Composition
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+
 ![Status](https://img.shields.io/badge/Status-Bachelor%20Thesis-orange)
 
 A computational framework to distinguish **Hadronic Stars** (gravity-bound) from **Strange Quark Stars** (self-bound) using supervised machine learning. This project attempts to resolve the "Masquerade Problem"—where distinct phases of matter produce degenerate mass-radius relations—by integrating **Tidal Deformability ($\Lambda$)** and topological stability features.
