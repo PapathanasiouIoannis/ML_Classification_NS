@@ -3,16 +3,11 @@
 # ==============================================================================
 # Description:
 #   Provides a library of analytic Equation of State (EoS) parameterizations.
-#   - Core Models: Based on Read et al. (2009) piecewise fits (MDI, SLy, APR, etc.)
+#   - Core Models: Based on Read et al. (2009) and selected from Alkiviadis (2019) piecewise fits (MDI, SLy, APR, etc.)
 #   - Crust Model: Based on Douchin & Haensel (SLy) parameterization.
 #
 #   Uses SymPy to analytically compute derivatives (speed of sound inputs)
 #   and converts them to fast NumPy functions for the ODE solver.
-#
-# Cleaned & Refactored:
-#   - Removed duplicate imports.
-#   - Added comments identifying model families (Read et al. parameterizations).
-#   - Structured dictionary outputs for clarity.
 # ==============================================================================
 
 import numpy as np
@@ -33,7 +28,7 @@ def get_eos_library():
     # 1. CORE MODELS (High Density)
     # ==========================================
     # Analytic fits for Energy Density epsilon(p) [MeV/fm^3]
-    # Parameters derived from Read et al. (2009) constraints.
+    # Parameters derived from Alkiviadis (2019) & Read et al. (2009) constraints.
     core_exprs = {
             "MDI-1": 4.1844 * p**0.81449 + 95.00135 * p**0.31736,
             "MDI-2": 5.97365 * p**0.77374 + 89.24 * p**0.30993,
@@ -59,7 +54,7 @@ def get_eos_library():
             "WFF-1": 0.00127717 * p**1.69617 + 135.233 * p**0.331471,
             "WFF-2": 0.00244523 * p**1.62692 + 122.076 * p**0.340401,
             
-            # "PS" excluded or commented out in original if unstable/problematic
+            # "PS" excluded for caution reasons,due to the differing P_trans compared to all of the other models.
             #"PS": 1.69483 + 9805.95 * (1 - exp(-p * 0.000193624))
              #     + 212.072 * (1 - exp(-p * 0.401508)),
             
