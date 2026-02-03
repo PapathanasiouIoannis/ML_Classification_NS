@@ -11,11 +11,6 @@
 #   2. Calculates the Stability Window (B_min, B_max).
 #   3. Inverse-samples the Bag Constant (B) to target a specific maximum mass.
 #   4. Solves the TOV equations and extracts features (Radius, Slope, Lambda).
-#
-# Cleaned & Refactored:
-#   - Integrated `src.const.CONSTANTS` for physical units and limits.
-#   - Removed hardcoded stability thresholds.
-#   - Standardized error handling and curve validation.
 # ==============================================================================
 
 import numpy as np
