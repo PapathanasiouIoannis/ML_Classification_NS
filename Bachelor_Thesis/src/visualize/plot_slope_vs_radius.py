@@ -66,7 +66,7 @@ def plot_slope_vs_radius(df):
         ax.set_xlabel(r"Radius $R_{1.4}$ [km]")
         ax.set_ylabel(r"Slope $dR/dM$")
         
-        # Legend (Only on first subplot to reduce clutter)
+        # Legend 
         if i == 0: 
             # Scale up markers in legend for visibility
             ax.legend(loc='upper right', frameon=True, markerscale=2.0)
