@@ -116,7 +116,7 @@ def plot_correlations(df):
     ax.set_ylabel(r"Tidal Deformability $\Lambda_{1.4}$")
     ax.set_title(r"Topological Signature: Slope vs Deformability")
     
-    # Stability Reference Line (Slope=0)
+    # Reference Line (Slope=0)
     ax.axvline(0, color='black', linestyle='-', linewidth=1, label='Zero Slope')
     ax.set_xlim(CONSTANTS['PLOT_SLOPE_LIM'])
     ax.set_ylim(0, 1000) # Focus on Lambda < 1000 
