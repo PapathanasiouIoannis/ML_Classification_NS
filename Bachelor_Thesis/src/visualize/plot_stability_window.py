@@ -52,10 +52,7 @@ def plot_stability_window(df):
         return (term1 + term2) / (hc**3)
 
     # Calculate boundaries
-    # Lower ms -> Higher effective pairing -> Higher Pressure -> Higher B allowed?
-    # Actually: alpha ~ Delta^2 - ms^2/4. 
-    # Smaller ms -> Larger alpha -> Stiffer EoS -> Higher energy density at P=0?
-    # Let's trust the algebra:
+
     b_max_ms_min = calculate_b_max(delta_vals, ms_min) # ms = 80
     b_max_ms_max = calculate_b_max(delta_vals, ms_max) # ms = 120
     
