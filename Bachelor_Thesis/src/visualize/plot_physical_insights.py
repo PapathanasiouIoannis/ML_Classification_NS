@@ -37,11 +37,11 @@ def plot_physical_insights(models_dict, df):
         
         fig, ax = plt.subplots(figsize=(10, 6))
         
-        # Plot Observables (Blue)
+        # Plot Observables 
         y_pos_obs = np.arange(3)
         ax.barh(y_pos_obs, importances[idx_obs], color='#1f77b4', label='Macroscopic (Observables)')
         
-        # Plot Microphysics (Red)
+        # Plot Microphysics 
         y_pos_mic = np.arange(3) + 4 # Offset to separate groups
         ax.barh(y_pos_mic, importances[idx_mic], color='#d62728', label='Microscopic (Topology)')
         
@@ -62,7 +62,7 @@ def plot_physical_insights(models_dict, df):
     # ==============================================================
     fig, ax = plt.subplots(figsize=(10, 7))
     
-    # 1. Plot the "Roads" (EoS Trajectories)
+    # 1. Plot the EoS Trajectories
     grouped = df.groupby('Curve_ID')
     curve_ids = list(grouped.groups.keys())
     
@@ -90,8 +90,8 @@ def plot_physical_insights(models_dict, df):
             ax.plot(g.loc[mask, 'Eps_Central'], g.loc[mask, 'CS2_Central'], 
                     color=color, alpha=0.1, lw=0.5, zorder=1)
 
-    # 2. Plot the "Cities" (Actual Stellar Cores)
-    # Sample actual cores to show where the population lives along the roads
+    # 2. Plot the stellar cores
+    # 
     sample_dots = df.sample(min(2000, len(df)), random_state=42)
     
     # Hadronic Cores (Green)
@@ -118,7 +118,7 @@ def plot_physical_insights(models_dict, df):
     ax.set_ylabel(r"Central Speed of Sound Squared $c_s^2$")
     ax.set_title(r"Microphysics: EoS Trajectories vs. Stellar Cores")
     
-    # Custom Legend
+    #  Legend
     lines = [
         Line2D([0], [0], color=COLORS['H_main'], lw=2, label='Hadronic Models'),
         Line2D([0], [0], color=COLORS['Q_main'], lw=2, label='Quark Models'),
