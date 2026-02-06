@@ -27,7 +27,6 @@ def plot_physical_insights(models_dict, df):
         if hasattr(model_D, 'feature_importances_'):
             importances = model_D.feature_importances_
         else:
-            # Fallback if not patched (should not happen with cleaned pipeline)
             importances = np.zeros(len(features))
             print("[Warn] Feature importances not found on Model D.")
 
