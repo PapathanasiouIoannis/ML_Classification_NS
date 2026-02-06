@@ -23,20 +23,19 @@ def train_model(df):
     gss = GroupShuffleSplit(n_splits=1, test_size=0.25, random_state=42)
     train_idx, test_idx = next(gss.split(df_clean, y, groups=groups))
     
-    # ==========================================
+
     # 3. HYPERPARAMETER CONFIGURATION (DEEP TUNED)
-    # ==========================================
+
     
     # CONFIG 1: PHYSICS MODELS (B, C, D)
-    # Result: 99.999% Accuracy.
-    # - 'sqrt': Forces trees to use subtle features (Slope/Density).
-    # - leaf=20: Robust against minor numerical noise.
+
+
     rf_params_phys = {
-        'n_estimators': 1000,        # Scale up from grid search (200) to 1000 for stability
+        'n_estimators': 1000,        
         'max_depth': 15,
-        'min_samples_leaf': 20,      # Optimized value
-        'max_features': 'sqrt',      # Constraint: Force decorrelation
-        'max_samples': None,         # Use full dataset per tree
+        'min_samples_leaf': 20,      
+        'max_features': 'sqrt',      
+        'max_samples': None,        
         'bootstrap': True,
         'class_weight': 'balanced',
         'n_jobs': -1,
@@ -44,15 +43,12 @@ def train_model(df):
     }
 
     # CONFIG 2: OBSERVATIONAL MODELS (Geo, A)
-    # Result: 95.0% Accuracy.
-    # - max_samples=0.7: Bagging (70% data per tree) prevents memorizing specific curves.
-    # - max_features=None: Always see Radius to fix low-mass errors.
-    # - leaf=10: High resolution allowed because Bagging handles the noise.
+
     rf_params_obs = rf_params_phys.copy()
     rf_params_obs.update({
-        'max_features': None,        # Grid Search Winner
-        'max_samples': 0.7,          # Grid Search Winner (Aggressive Bagging)
-        'min_samples_leaf': 10,      # Higher resolution
+        'max_features': None,        
+        'max_samples': 0.7,          
+        'min_samples_leaf': 10,      
         'max_depth': 15
     })
     
