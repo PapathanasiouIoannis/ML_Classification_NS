@@ -23,9 +23,9 @@ def worker_get_plot_curve(mode, baselines, seed):
     m_n = CONSTANTS['M_N'] 
     
     if mode == 'hadronic':
-        # ==========================================
+
         # HADRONIC LOGIC (Matches worker_hadronic_gen)
-        # ==========================================
+
         core_lib, crust_funcs = get_eos_library()
         model_names = list(baselines.keys())
         
@@ -35,21 +35,21 @@ def worker_get_plot_curve(mode, baselines, seed):
             for name in model_names
         }
         
-        # Configuration
+
         m_min_target = CONSTANTS['H_M_MIN_TARGET']
         m_max_target = CONSTANTS['H_M_MAX_TARGET']
         delta_limit = CONSTANTS['H_DELTA_LIMIT']
         
         # Loop until a valid curve is found
         while True:
-            # 1. SMART PARAMETER SELECTION
+            
             nA, nB = np.random.choice(model_names, 2, replace=False)
             w = np.random.uniform(0.20, 0.80)
             
             # Weighted Average Base Mass
             base_max_m = w * baselines[nA] + (1-w) * baselines[nB]
             
-            # --- Inverse Sampling Trick ---
+            # Inverse Sampling  
             req_delta_min = (m_min_target / base_max_m) - 1.0
             req_delta_max = (m_max_target / base_max_m) - 1.0
             
@@ -78,7 +78,7 @@ def worker_get_plot_curve(mode, baselines, seed):
             # 3. SOLVE STRUCTURE
             curve, max_m = solve_sequence(eos_input, is_quark=False)
             
-            # 4. VALIDATION FILTERS (Strict match to worker)
+            # 4. VALIDATION FILTERS 
             if max_m < m_min_target or max_m > m_max_target: continue
             
             c = np.array(curve)
@@ -96,9 +96,9 @@ def worker_get_plot_curve(mode, baselines, seed):
             # Must resolve low mass branch
             if c[0,0] > 1.4: continue
 
-            # 5. GENERATE DENSE EOS GRID (For Plotting P vs Eps)
+            # 5. GENERATE EOS GRID 
             try:
-                # Dense grid for visualization
+                #  grid for visualization
                 p_max = 3000.0 
                 p_grid = np.logspace(-4.0, np.log10(p_max), 100)
                 
@@ -145,9 +145,9 @@ def worker_get_plot_curve(mode, baselines, seed):
                 continue
 
     else:
-        # ==========================================
+     
         # QUARK LOGIC (Matches worker_quark_gen)
-        # ==========================================
+        
         while True:
             # 1. Parameter Selection
             ms_MeV = np.random.uniform(*CONSTANTS['Q_MS_RANGE'])
@@ -198,7 +198,7 @@ def worker_get_plot_curve(mode, baselines, seed):
             c = np.array(curve)
             if np.max(c[:,1]) > CONSTANTS['Q_R_MAX']: continue
             
-            # 6. Generate Dense EoS Grid
+            # 6. Generate EoS Grid
             p_max = 3000.0 
             p_grid = np.logspace(-4.0, np.log10(p_max), 100)
             eps_grid = []
