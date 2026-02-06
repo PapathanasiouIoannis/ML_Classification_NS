@@ -7,9 +7,9 @@ from sklearn.model_selection import GridSearchCV, GroupKFold
 import os
 
 def tune_hyperparameters():
-    print("=========================================================")
-    print("   HYPERPARAMETER OPTIMIZATION (GRID SEARCH)")
-    print("=========================================================")
+
+    print("   Hyperparameter optimization")
+    
     
     # 1. Load Data
     data_path = os.path.join("data", "thesis_dataset.csv")
@@ -29,12 +29,12 @@ def tune_hyperparameters():
     groups = df_clean['Curve_ID']
     
     # Define Splitter
-    # We use 3 folds to keep it reasonably fast
+    #  use 3 folds to keep it reasonably fast
     cv_splitter = GroupKFold(n_splits=3)
 
-    # =======================================================
+
     # SCENARIO 1: TUNING MODEL A (OBSERVATIONAL)
-    # =======================================================
+
     print("\n--- Tuning Model A (Observational) ---")
     print("Goal: Maximize Accuracy. Testing if max_features=None is statistically superior.")
     
@@ -44,7 +44,7 @@ def tune_hyperparameters():
         'n_estimators': [200], # Lower than 1000 for speed
         'max_depth': [10, 15],
         'min_samples_leaf': [10, 30, 50, 100],
-        'max_features': ['sqrt', None], # The big question
+        'max_features': ['sqrt', None], # The  question
         'bootstrap': [True]
     }
     
@@ -62,9 +62,9 @@ def tune_hyperparameters():
     print(f"Best Params (Model A): {grid_A.best_params_}")
     print(f"Best Accuracy: {grid_A.best_score_:.4f}")
 
-    # =======================================================
+
     # SCENARIO 2: TUNING MODEL D (PHYSICS)
-    # =======================================================
+
     print("\n--- Tuning Model D (Microphysics) ---")
     print("Goal: Maximize Accuracy while enforcing feature diversity.")
     print("Constraint: max_features is LOCKED to 'sqrt'.")
