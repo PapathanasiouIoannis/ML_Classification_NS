@@ -25,11 +25,11 @@ def plot_slope_vs_radius(df):
         {'col': 'Slope20', 'mass': '2.0'}
     ]
     
-    # 2x2 Grid Layout
+    
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     axes = axes.flatten()
     
-    # Filter to unique EoS curves to avoid plotting 300 points per star
+    # Filter to unique EoS curves 
     unique_stars = df.drop_duplicates(subset=['Curve_ID'])
     
     for i, target in enumerate(targets):
@@ -50,15 +50,14 @@ def plot_slope_vs_radius(df):
                    color=COLORS['Q_main'], s=15, alpha=0.5, 
                    label='Quark', edgecolors='none', rasterized=True)
         
-        # --- Formatting ---
-        # Match Axes to global plotting standards
+        
         ax.set_xlim(CONSTANTS['PLOT_R_LIM'])
         ax.set_ylim(CONSTANTS['PLOT_SLOPE_LIM'])
         
         # Stability Reference Line
         ax.axhline(0, color='black', linestyle=':', alpha=0.6, lw=1)
         
-        # Text Tag
+       
         ax.text(0.05, 0.05, f"$M = {target['mass']} M_{{\odot}}$", 
                 transform=ax.transAxes, fontsize=12, fontweight='bold', 
                 bbox=dict(facecolor='white', alpha=0.8, edgecolor='gray', boxstyle='round,pad=0.3'))
@@ -66,9 +65,9 @@ def plot_slope_vs_radius(df):
         ax.set_xlabel(r"Radius $R_{1.4}$ [km]")
         ax.set_ylabel(r"Slope $dR/dM$")
         
-        # Legend 
+      
         if i == 0: 
-            # Scale up markers in legend for visibility
+            
             ax.legend(loc='upper right', frameon=True, markerscale=2.0)
 
     plt.tight_layout()
