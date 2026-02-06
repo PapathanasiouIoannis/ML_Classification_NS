@@ -13,7 +13,6 @@ def plot_slope_evolution(df):
     set_paper_style()
     print("\n--- Generating Slope Evolution Diagnostics (Paper Style) ---")
     
-    # Define Targets: We analyze the slope at 4 distinct mass steps
     targets = [
         {'col': 'Slope14', 'mass': '1.4'},
         {'col': 'Slope16', 'mass': '1.6'},
@@ -25,7 +24,7 @@ def plot_slope_evolution(df):
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     axes = axes.flatten()
     
-    # Drop duplicates to plot one point per EoS Curve
+
     unique_stars = df.drop_duplicates(subset=['Curve_ID'])
     
     for i, target in enumerate(targets):
@@ -55,7 +54,7 @@ def plot_slope_evolution(df):
         # Zero line: Separates expanding stars (dR/dM > 0) from compressing stars (dR/dM < 0)
         ax.axhline(0, color='black', linestyle=':', alpha=0.6, lw=1)
         
-        # Labels and Style
+       
         ax.set_xlabel(r"$c_s^2(r=0)$ at $1.4 M_{\odot}$")
         ax.set_ylabel(r"Slope $dR/dM$")
         
