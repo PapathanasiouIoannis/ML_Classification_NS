@@ -1,10 +1,4 @@
-# ==============================================================================
-# HEADER: src/physics/tov_rhs.py
-# ==============================================================================
-# Description:
-#   Computes the derivatives for the Tolman-Oppenheimer-Volkoff (TOV) equations
-#   coupled with the Tidal Deformability Riccati equation.
-# ==============================================================================
+
 
 import numpy as np
 from src.const import CONSTANTS
@@ -29,9 +23,9 @@ def tov_rhs(r, y_state, eos_data, is_quark):
     # Ensure P is never negative or zero to avoid log errors in crust formulas
     P_safe = max(P, CONSTANTS['TOV_P_MIN_SAFE'])
 
-    # ==========================================
+
     # 1. MICROPHYSICS (Thermodynamics)
-    # ==========================================
+
     if is_quark:
         # --- QUARK LOGIC (Generalized CFL) ---
         # Unpack parameters: 
@@ -81,13 +75,13 @@ def tov_rhs(r, y_state, eos_data, is_quark):
         # --- HADRONIC LOGIC (Mixed Core + Multi-Layer Crust) ---
         fA_e, fA_de, fB_e, fB_de, w, crusts, alpha, P_trans = eos_data
         
-        # Crust Thresholds (MeV/fm^3) - Based on Douchin & Haensel (SLy)
+        # Crust Thresholds (MeV/fm^3) 
         P_c1 = CONSTANTS['P_C1']
         P_c2 = CONSTANTS['P_C2']
         P_c3 = CONSTANTS['P_C3']
         
         if P_safe > P_trans:
-            # --- CORE REGION ---
+
             # Apply Homologous Scaling and Mixing
             P_base = P_safe / alpha
             valA, valB = fA_e(P_base), fB_e(P_base)
@@ -106,14 +100,14 @@ def tov_rhs(r, y_state, eos_data, is_quark):
             # Theoretical Derivative
             dedp = (epsilon_base) * (termA + termB)
             
-            # --- CAUSALITY CLAMP ---
+
             # If dEps/dP < 1, then v_sound > c. This violates causality.
-            # We enforce the causal limit (stiffest possible matter: dP = dEps).
+            
             if dedp < 1.0:
                 dedp = 1.0
             
         else:
-            # --- CRUST REGION (Cascade) ---
+            # CRUST REGION 
             if P_safe > P_c1:
                 epsilon = crusts['c1'][0](P_safe); dedp = crusts['c1'][1](P_safe)
             elif P_safe > P_c2:
@@ -127,18 +121,18 @@ def tov_rhs(r, y_state, eos_data, is_quark):
     if dedp <= 0: return [0, 0, 0]
     cs2_local = 1.0 / dedp 
     
-    # --- GLOBAL PHYSICS CLAMPS ---
+
     # Enforce Causality (v <= c)
     if cs2_local > 1.0: cs2_local = 1.0 
     # Enforce Stability (v > 0)
     if cs2_local < 1e-5: cs2_local = 1e-5
 
-    # Terminate if density is non-physical or radius is extremely small (singularity)
+    # Terminate if density is non-physical or radius is extremely small 
     if r < 1e-4 or epsilon <= 0: return [0, 0, 0]
 
-    # ==========================================
+
     # 2. MACROPHYSICS (General Relativity)
-    # ==========================================
+
     
     # --- A. TOV EQUATIONS (Structure) ---
     term_1 = (epsilon + P)
