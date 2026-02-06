@@ -17,9 +17,7 @@ def plot_statistical_bands(df):
     set_paper_style()
     print(f"\n--- Generating 'Statistical Summary' (Theoretical Bands Only) ---")
 
-    # ==========================================
-    # 1. SETUP GRIDS FOR INTERPOLATION
-    # ==========================================
+
     # EoS Grid
     eps_common = np.logspace(np.log10(CONSTANTS['PLOT_EPS_LOG'][0]), 
                              np.log10(CONSTANTS['PLOT_EPS_LOG'][1]), 500)
@@ -36,13 +34,11 @@ def plot_statistical_bands(df):
     mr_h_r, mr_h_m = [], []
     mr_q_r, mr_q_m = [], []
 
-    # ==========================================
-    # 2. DATA AGGREGATION (FULL DATASET)
-    # ==========================================
+
     grouped = df.groupby('Curve_ID')
     curve_ids = list(grouped.groups.keys())
     
-    # We use all available curves for statistical robustness
+
     print(f"Processing all {len(curve_ids)} curves (this may take a moment)...")
         
     for name, group in tqdm(grouped, desc="Aggregating"):
@@ -50,12 +46,12 @@ def plot_statistical_bands(df):
         g = group.sort_values(by='Eps_Central')
         label = g['Label'].iloc[0]
         
-        # --- A. EoS Interpolation ---
+
         e_vals = g['Eps_Central'].values
         p_vals = g['P_Central'].values
         
         if len(e_vals) > 5:
-            # Interpolate in Log-Log space
+    
             f_eos = interp1d(np.log10(e_vals), np.log10(p_vals), 
                              bounds_error=False, fill_value=np.nan)
             p_interp = 10**f_eos(np.log10(eps_common))
@@ -63,7 +59,7 @@ def plot_statistical_bands(df):
             if label == 0: eos_h_matrix.append(p_interp)
             else:          eos_q_matrix.append(p_interp)
 
-        # --- B. M-R Points (Stable Branch) ---
+
         m_max = g['Mass'].max()
         g_stable = g[g['Mass'] <= m_max]
         
@@ -74,7 +70,7 @@ def plot_statistical_bands(df):
             mr_q_r.extend(g_stable['Radius'].values)
             mr_q_m.extend(g_stable['Mass'].values)
 
-        # --- C. Tidal Interpolation ---
+
         g_tidal = g_stable.drop_duplicates('Mass').sort_values('Mass')
         
         if len(g_tidal) > 5:
@@ -101,37 +97,36 @@ def plot_statistical_bands(df):
     fig, axes = plt.subplots(1, 3, figsize=(18, 6))
     plt.subplots_adjust(wspace=0.25)
 
-    # --- Helper: Draw Statistical Band ---
+
     def draw_band(ax, x, matrix, color, label, hatch=None, linestyle='-'):
         """Plots the 5th-95th percentile bands and the median line."""
-        # Calculate Percentiles (ignoring NaNs from interpolation bounds)
+
         low  = np.nanpercentile(matrix, 5, axis=0)
         med  = np.nanpercentile(matrix, 50, axis=0)
         high = np.nanpercentile(matrix, 95, axis=0)
         
-        # Gaussian Smoothing for aesthetics
+
         sigma = 2.0
         low  = gaussian_filter1d(low, sigma)
         med  = gaussian_filter1d(med, sigma)
         high = gaussian_filter1d(high, sigma)
         
-        # Plot Median
+
         ax.plot(x, med, color=color, linestyle=linestyle, linewidth=2, label=label)
-        # Plot Bounds
+
         ax.plot(x, low, color=color, linestyle=linestyle, linewidth=0.5, alpha=0.5)
         ax.plot(x, high, color=color, linestyle=linestyle, linewidth=0.5, alpha=0.5)
         
-        # Fill Band
+        
         if hatch:
-            # Hatched fill (Quark style)
+    
             ax.fill_between(x, low, high, facecolor='none', edgecolor=color, 
                             hatch=hatch, alpha=0.5, linewidth=0)
             ax.fill_between(x, low, high, facecolor=color, alpha=0.1, linewidth=0)
         else:
-            # Solid fill (Hadronic style)
+       
             ax.fill_between(x, low, high, facecolor=color, alpha=0.25, linewidth=0)
 
-    # --- PANEL A: Equation of State ---
     ax = axes[0]
     draw_band(ax, eps_common, eos_h_matrix, COLORS['H_main'], 'Hadronic', linestyle='-')
     draw_band(ax, eps_common, eos_q_matrix, COLORS['Q_main'], 'Quark', hatch='////', linestyle='--')
@@ -143,19 +138,18 @@ def plot_statistical_bands(df):
     ax.set_xlabel(r"Energy Density $\varepsilon$ [MeV/fm$^3$]")
     ax.set_ylabel(r"Pressure $P$ [MeV/fm$^3$]")
     ax.set_title(r"(a) Equation of State")
-    
-    # Causal Limit
+
     x_guide = np.logspace(2, 4, 50)
     ax.plot(x_guide, x_guide, 'k:', alpha=0.5, label='Causal Limit')
 
-    # --- PANEL B: Mass-Radius (Contours) ---
+
     ax = axes[1]
     
     xx, yy = np.mgrid[4:22:100j, 0:4.5:100j] 
     pos = np.vstack([xx.ravel(), yy.ravel()])
     
     def draw_contour(r_pts, m_pts, color, hatch=None, ls='-'):
-        # Cap point count if extreme memory usage is detected
+
         if len(r_pts) > 50000: 
              idx = np.random.choice(len(r_pts), 50000, replace=False)
              r_pts, m_pts = np.array(r_pts)[idx], np.array(m_pts)[idx]
@@ -193,7 +187,7 @@ def plot_statistical_bands(df):
     ax.set_ylabel(r"Mass $M$ [$M_{\odot}$]")
     ax.set_title(r"(b) Mass-Radius Relation")
 
-    # --- PANEL C: Tidal Deformability ---
+
     ax = axes[2]
     draw_band(ax, mass_common, lam_h_matrix, COLORS['H_main'], 'Hadronic', linestyle='-')
     draw_band(ax, mass_common, lam_q_matrix, COLORS['Q_main'], 'Quark', hatch='////', linestyle='--')
@@ -205,7 +199,7 @@ def plot_statistical_bands(df):
     ax.set_ylabel(r"Tidal Deformability $\Lambda$")
     ax.set_title(r"(c) Tidal Deformability")
     
-    # Global Legend
+
     h_patch = Patch(facecolor=COLORS['H_main'], alpha=0.3, 
                     edgecolor=COLORS['H_main'], label='Hadronic (90% CI)')
     q_patch = Patch(facecolor='white', hatch='////', 
