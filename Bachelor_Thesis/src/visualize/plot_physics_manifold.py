@@ -14,7 +14,7 @@ def plot_physics_manifold(df):
     Generates the Triptych Manifold plot using KDE Contours (Statistical View).
     """
     set_paper_style()
-    print(f"\n--- Generating Paper-Quality Manifold Triptych (KDE) ---")
+    print(f"\n--- Generating Manifold Triptych (KDE) ---")
     
     # 1. Setup Data
     grouped = df.groupby('Curve_ID')
@@ -197,7 +197,7 @@ def plot_manifold_curves(df):
     # Save
     outfile = "plots/fig_1_manifold_curves.pdf"
     plt.tight_layout()
-    plt.savefig(outfile, dpi=300) # High DPI for the rasterized lines
+    plt.savefig(outfile, dpi=300) 
     plt.close()
     print(f"[Success] Saved Curve Manifold to {outfile}")
 
