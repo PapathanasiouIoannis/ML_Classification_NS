@@ -19,43 +19,33 @@ def plot_surface_density(df):
         
     q_vals = df[df['Label']==1]['Eps_Surface']
     
-    # Safety check
+
     if len(q_vals) < 10:
         print("[Warn] Not enough Quark samples for density plot.")
         return
 
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    # ==========================================
-    # 2. PLOT QUARK DISTRIBUTION (The Hill)
-    # ==========================================
-    # We plot the Quark distribution using KDE
+
+    #  plot the Quark distribution using KDE
     sns.kdeplot(x=q_vals, ax=ax, 
                 fill=True, color=COLORS['Q_main'], alpha=0.2, 
                 linewidth=2, label='Quark Surface Density')
     
-    # ==========================================
-    # 3. PLOT HADRONIC (The Spike)
-    # ==========================================
+
     # Hadronic stars effectively have 0 density at the surface compared to nuclear scales.
-    # We represent this Dirac Delta with a vertical line.
+    #  represent this with a vertical line.
     ax.axvline(0, color=COLORS['H_main'], linewidth=3, linestyle='-', 
                label='Hadronic Boundary ($\epsilon \\approx 0$)')
     
-    # ==========================================
-    # 4. THE FORBIDDEN GAP (Physics)
-    # ==========================================
-    # The region between Iron Density (~0) and the minimum stable Quark density (~4*B_min)
-    # is physically forbidden for stable compact stars.
+
     gap_limit = q_vals.min()
     
     ax.axvspan(0, gap_limit, color='gray', alpha=0.1, hatch='///')
     ax.text(gap_limit/2, ax.get_ylim()[1]*0.5, "Forbidden\nRegion", 
             ha='center', va='center', color='gray', fontsize=10, fontweight='bold')
 
-    # ==========================================
-    # 5. ANNOTATIONS
-    # ==========================================
+
     # Hadronic Annotation
     ax.annotate(r"Iron Crust ($\epsilon \approx 0$)", 
                 xy=(0, ax.get_ylim()[1]*0.8), xytext=(150, ax.get_ylim()[1]*0.8),
@@ -69,14 +59,11 @@ def plot_surface_density(df):
                 arrowprops=dict(facecolor=COLORS['Q_main'], arrowstyle='->', lw=1.5),
                 color=COLORS['Q_main'], fontweight='bold')
 
-    # ==========================================
-    # 6. FORMATTING
-    # ==========================================
+
     ax.set_title(r"Surface Density Gap: Gravity-Bound vs Self-Bound")
     ax.set_xlabel(r"Surface Energy Density $\varepsilon_{surf}$ [MeV/fm$^3$]")
     ax.set_ylabel(r"Probability Density")
-    
-    # Set X-Limits to show the 0-point clearly but focus on the distribution
+ 
     ax.set_xlim(-50, 1000)
     
     ax.legend(loc='upper right', frameon=True)
