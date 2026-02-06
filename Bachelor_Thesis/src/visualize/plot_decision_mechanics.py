@@ -56,7 +56,7 @@ def plot_decision_mechanics(df):
         Z = rf.predict_proba(grid_points)[:, 1]
         Z = Z.reshape(XX.shape)
         
-        # --- SMOOTHING FIX ---
+        
         # Apply Gaussian filter to melt "blocky" RF artifacts into a smooth gradient
         Z_smooth = gaussian_filter(Z, sigma=2.0)
         
