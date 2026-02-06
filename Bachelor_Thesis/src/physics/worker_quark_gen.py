@@ -1,17 +1,4 @@
-# ==============================================================================
-# HEADER: src/physics/worker_quark_gen.py
-# ==============================================================================
-# Description:
-#   Generates Quark Star EoS using Target-Driven Inverse Sampling.
-#   Implements the Generalized CFL model with parameterized gap energy (Delta)
-#   and strange quark mass (ms).
-#
-#   Method:
-#   1. Samples microphysics parameters (Delta, ms).
-#   2. Calculates the Stability Window (B_min, B_max).
-#   3. Inverse-samples the Bag Constant (B) to target a specific maximum mass.
-#   4. Solves the TOV equations and extracts features (Radius, Slope, Lambda).
-# ==============================================================================
+
 
 import numpy as np
 from scipy.interpolate import interp1d, PchipInterpolator
@@ -45,18 +32,16 @@ def worker_quark_gen(n_curves_to_gen, seed_offset, batch_idx):
     while curves_found < n_curves_to_gen and attempts < max_attempts:
         attempts += 1
         
-        # ==============================================================
+
         # 1. SAMPLE MICROPHYSICS (Delta, ms)
-        # ==============================================================
+
         # Sample from the physical prior ranges defined in CONSTANTS
         ms_MeV = np.random.uniform(*CONSTANTS['Q_MS_RANGE'])
         Delta_MeV = np.random.uniform(*CONSTANTS['Q_DELTA_RANGE'])
         
-        # ==============================================================
+
         # 2. CALCULATE STABILITY LIMIT (B_max)
-        # ==============================================================
-        # The EoS is stable only if energy per baryon < 939 MeV (Neutron Mass)
-        # at zero pressure. We calculate the maximum Bag Constant (B) allowed.
+
         mu_limit = m_n / 3.0
         term1 = (3.0 / (4.0 * np.pi**2)) * (mu_limit**4)
         eff_gap_sq = Delta_MeV**2 - (ms_MeV**2 / 4.0)
@@ -68,13 +53,11 @@ def worker_quark_gen(n_curves_to_gen, seed_offset, batch_idx):
         # If the parameter space is invalid (max < min), skip iteration
         if B_max <= B_min: continue 
             
-        # ==============================================================
+
         # 3. TARGET-DRIVEN SAMPLING (Inverse Method)
-        # ==============================================================
-        # Instead of sampling B uniformly (which biases towards low mass),
-        # we target a specific Maximum Mass and infer the required B.
+
         
-        # Target Mass Range: 1.0 to Q_M_MAX_UPPER (usually 3.0)
+        # Target Mass Range: 1.0 to Q_M_MAX_UPPER ( 3.0)
         target_m_max = np.random.uniform(1.0, CONSTANTS['Q_M_MAX_UPPER'])
         
         # A. Inverse Scaling Law (Empirical approximation)
@@ -82,13 +65,12 @@ def worker_quark_gen(n_curves_to_gen, seed_offset, batch_idx):
         B_guess = 58.0 * (2.03 / target_m_max)**2
         
         # B. Delta Correction
-        # High Gap Energy (Delta) stiffens the EoS. We apply a stiffness factor
-        # to adjust the Bag Constant guess.
+
         delta_stiffness_factor = 1.0 + (1.5 * (Delta_MeV / 500.0))
         B_guess_corrected = B_guess * delta_stiffness_factor
 
         # C. Add Noise / Perturbation
-        # Introduce randomness to explore the neighborhood of the guess
+
         noise = np.random.uniform(0.75, 1.30)
         B_target = B_guess_corrected * noise
         
@@ -103,19 +85,19 @@ def worker_quark_gen(n_curves_to_gen, seed_offset, batch_idx):
         Delta_geom = Delta_MeV / hc
         ms_geom = ms_MeV / hc
         
-        # ==============================================================
+
         # 4. SOLVE TOV SEQUENCE
-        # ==============================================================
+
         curve, max_m = solve_sequence((B, Delta_geom, ms_geom), is_quark=True)
         
-        # ==============================================================
+
         # 5. VALIDATION FILTERS
-        # ==============================================================
+
         # Mass Filter
         if max_m < 1.0: continue
         if max_m > CONSTANTS['Q_M_MAX_UPPER']: continue 
         
-        # Radius Filter (Discard extremely fluffy stars)
+        # Radius Filter 
         if np.max(np.array(curve)[:,1]) > CONSTANTS['Q_R_MAX']: continue
         
         try:
@@ -123,11 +105,11 @@ def worker_quark_gen(n_curves_to_gen, seed_offset, batch_idx):
             c_arr = np.array(curve)
             c_arr = c_arr[c_arr[:,0].argsort()]
             
-            # Sequence Completeness Check
+
             # Ensure the curve spans the relevant mass range
             if c_arr[0,0] > 1.0 or c_arr[-1,0] < 1.0: continue
 
-            # Feature Interpolators
+
             f_R = PchipInterpolator(c_arr[:,0], c_arr[:,1])
             f_CS2 = interp1d(c_arr[:,0], c_arr[:,5], kind='linear', fill_value="extrapolate")
             
@@ -146,7 +128,7 @@ def worker_quark_gen(n_curves_to_gen, seed_offset, batch_idx):
                     else:
                         slopes[m_step] = np.nan
             else:
-                # Valid low-mass star (e.g. 1.2 M_sun), but no 1.4 features
+
                 cs2_at_14 = np.nan
                 r_14 = np.nan
                 slopes = {m: np.nan for m in [1.4, 1.6, 1.8, 2.0]}
@@ -154,9 +136,8 @@ def worker_quark_gen(n_curves_to_gen, seed_offset, batch_idx):
         except Exception:
             continue
 
-        # ==============================================================
         # 6. SAVE DATA
-        # ==============================================================
+
         curves_found += 1 
         curve_id = f"Q_{batch_idx}_{attempts}"
         
