@@ -20,7 +20,7 @@ def analyze_candidates(models):
     
     # Real Data Catalog (Mean and 1-sigma uncertainties)
     # L=0 is a placeholder for objects where Lambda is unmeasured.
-    # Data Sources: LIGO/Virgo (GW), NICER (PSR)
+
     candidates = [
         {"Name": "GW170817",     "M": 1.40, "sM": 0.10, "R": 11.90, "sR": 1.40, "L": 190, "sL": 120},
         {"Name": "PSR J0740+66", "M": 2.08, "sM": 0.07, "R": 12.35, "sR": 0.75, "L": 0,   "sL": 0},
@@ -33,19 +33,17 @@ def analyze_candidates(models):
     print("-" * 100)
 
     for star in candidates:
-        # ==========================================
+
         # 1. MONTE CARLO SAMPLING
-        # ==========================================
-        # Generate 5000 realizations of the star from its Error Distribution
+
         n_mc = 5000 
         
         raw_m = np.random.normal(star['M'], star['sM'], n_mc)
         raw_r = np.random.normal(star['R'], star['sR'], n_mc)
         raw_l = np.random.normal(star['L'], star['sL'], n_mc)
         
-        # ==========================================
+
         # 2. PHYSICALITY FILTERING
-        # ==========================================
         # Truncate the Gaussian to physical values
         # Radius > 8km (Causal/BH limit proximity), Mass > 0.1 M_sun
         valid_mask = (raw_r > 8.0) & (raw_m > 0.1)
@@ -61,13 +59,13 @@ def analyze_candidates(models):
         r_s = raw_r[valid_mask]
         l_s = raw_l[valid_mask]
         
-        # Skip if sampling failed (e.g., extremely unphysical parameters)
+        # Skip if sampling failed 
         if len(m_s) == 0: 
             continue 
 
-        # ==========================================
+
         # 3. MODEL SELECTION & PREDICTION
-        # ==========================================
+
         if has_tidal:
             # PATH A: Use Full Physics Model
             # Input features must match Model A training: [Mass, Radius, LogLambda]
@@ -88,9 +86,9 @@ def analyze_candidates(models):
             probs = rf_geo.predict_proba(X_mc)[:, 1]
             m_name = "Model Geo"
         
-        # ==========================================
+
         # 4. MARGINALIZATION (SOFT VOTING)
-        # ==========================================
+
         # The final probability is the mean over all Monte Carlo samples
         mean_p = np.mean(probs)
         verdict = "QUARK" if mean_p > 0.5 else "HADRONIC"
