@@ -37,28 +37,27 @@ def run_advanced_analysis(df, models_dict, X_test, y_test):
         'A':   ['Mass', 'Radius', 'LogLambda']
     }
     
-    # ------------------------------------------------------
-    # 1. Learning Curves (Data Efficiency)
-    # ------------------------------------------------------
+
+    # 1. Learning Curves 
+
     if 'Geo' in models_dict:
         plot_learning_curve(models_dict['Geo'], df, 'Geo', model_features['Geo'])
     
     if 'A' in models_dict:
         plot_learning_curve(models_dict['A'], df, 'A', model_features['A'])
     
-    # ------------------------------------------------------
+
     # 2. Noise Robustness (Stress Test)
-    # ------------------------------------------------------
+
     if 'A' in models_dict:
         plot_noise_robustness(models_dict['A'], X_test, y_test)
 
-    # ------------------------------------------------------
+
     # 3. Physics Correlations (KDE Contours)
-    # ------------------------------------------------------
+
     print("\n--- Generating Physics Correlation Plots (KDE Contours) ---")
     
-    # Use exact test set rows to match predictions
-    # This ensures we correlate predictions with the ground truth physics of those specific stars
+
     df_test_slice = df.loc[X_test.index]
     
     # Parameters to correlate against P(Quark)
@@ -92,16 +91,13 @@ def run_advanced_analysis(df, models_dict, X_test, y_test):
                 tag=tag
             )
 
-    # ------------------------------------------------------
-    # 4. SHAP Analysis (Model A Only) ---> NOT in thesis <--> Just testing.
-    # ------------------------------------------------------
+ 
+    # 4. SHAP Analysis (Model A Only) 
+
     if SHAP_AVAILABLE and 'A' in models_dict:
         plot_shap_analysis(models_dict['A'], X_test, 'A')
 
 
-# =========================================================
-# PLOTTING FUNCTIONS
-# =========================================================
 
 def plot_probability_kde(x_data, y_probs, x_label, model_name, tag):
     """
@@ -111,7 +107,7 @@ def plot_probability_kde(x_data, y_probs, x_label, model_name, tag):
     fig, ax = plt.subplots(figsize=(8, 6))
     
     # 1. SUBSAMPLING
-    # Large datasets are subsampled to improve KDE performance
+
     MAX_SAMPLES = 500000
     data = pd.DataFrame({'x': x_data, 'y': y_probs}).dropna()
     
@@ -126,7 +122,7 @@ def plot_probability_kde(x_data, y_probs, x_label, model_name, tag):
         xy = np.vstack([x, y])
         z = gaussian_kde(xy)(xy)
         
-        # Sort points by density so dense points are plotted last (if scatter fallback is used)
+        # Sort points by density so dense points are plotted last 
         idx = z.argsort()
         x, y, z = x[idx], y[idx], z[idx]
         
@@ -140,10 +136,10 @@ def plot_probability_kde(x_data, y_probs, x_label, model_name, tag):
         kernel = gaussian_kde(xy)
         Zgrid = np.reshape(kernel(positions).T, Xgrid.shape)
         
-        # Mask very low density areas to force white background
+        
         Zgrid[Zgrid < 0.01 * Zgrid.max()] = np.nan
         
-        # 'BuPu' (Blue-Purple) is used for a clean, publication-ready gradient
+
         ax.contourf(Xgrid, Ygrid, Zgrid, levels=20, cmap='BuPu')
         
     except Exception:
@@ -163,9 +159,9 @@ def plot_probability_kde(x_data, y_probs, x_label, model_name, tag):
     if tag == 'slope':
         ax.axvline(0.0, color='gray', linestyle=':', linewidth=2, label='Zero Slope')
     
-    # =========================================================
+
     # 5. PHYSICS LIMITS (Centralized)
-    # =========================================================
+
     if tag == 'slope':
         ax.set_xlim(CONSTANTS['PLOT_SLOPE_LIM'])
     elif tag == 'epsilon':
