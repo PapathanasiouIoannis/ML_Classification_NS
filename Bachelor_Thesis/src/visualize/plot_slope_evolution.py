@@ -21,11 +21,11 @@ def plot_slope_evolution(df):
         {'col': 'Slope20', 'mass': '2.0'}
     ]
     
-    # Paper-style: 2x2 Grid
+    
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     axes = axes.flatten()
     
-    # Optimization: Drop duplicates to plot one point per EoS Curve
+    # Drop duplicates to plot one point per EoS Curve
     unique_stars = df.drop_duplicates(subset=['Curve_ID'])
     
     for i, target in enumerate(targets):
@@ -48,8 +48,7 @@ def plot_slope_evolution(df):
                    color=COLORS['Q_main'], s=15, alpha=0.5, 
                    label='Quark (CFL)', edgecolors='none', rasterized=True)
         
-        # --- AXIS LOCKING ---
-        # Use centralized limits to ensure consistency with other slope plots
+
         ax.set_xlim(CONSTANTS['PLOT_CS2_LIM'])
         ax.set_ylim(CONSTANTS['PLOT_SLOPE_LIM'])
         
@@ -60,12 +59,12 @@ def plot_slope_evolution(df):
         ax.set_xlabel(r"$c_s^2(r=0)$ at $1.4 M_{\odot}$")
         ax.set_ylabel(r"Slope $dR/dM$")
         
-        # Inner Text Tag (e.g., "M = 1.4 M_sun")
+        
         ax.text(0.05, 0.05, f"$M = {mass_label} M_{{\odot}}$", 
                 transform=ax.transAxes, fontsize=12, fontweight='bold', 
                 bbox=dict(facecolor='white', alpha=0.8, edgecolor='gray', boxstyle='round,pad=0.3'))
         
-        # Legend only on first plot
+        
         if i == 0:
             ax.legend(loc='upper right', frameon=True, markerscale=2.0)
 
