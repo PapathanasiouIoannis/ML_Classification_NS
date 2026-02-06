@@ -32,9 +32,9 @@ def run_performance_audit(models_dict, X_test, y_test):
     results = {name: [] for name in valid_models}
     counts = []
 
-    # =======================================================
+
     # TEST 1: MASS-DEPENDENT ACCURACY
-    # =======================================================
+
     print("\n[Audit 1] Calculating Accuracy per Mass Bin...")
     
     for i in range(len(bins)-1):
@@ -53,7 +53,7 @@ def run_performance_audit(models_dict, X_test, y_test):
             
         for name in valid_models:
             model = models_dict[name]
-            cols = feature_sets[name] # Use column order
+            cols = feature_sets[name] 
             
             # Ensure columns exist in X_sub before scoring
             if not all(col in X_sub.columns for col in cols):
@@ -84,7 +84,7 @@ def run_performance_audit(models_dict, X_test, y_test):
     ax1.grid(True, alpha=0.3)
     ax1.legend(loc='lower left')
     
-    # Plot Sample Count Bar Chart (Context)
+    # Plot Sample Count Bar Chart 
     ax2.bar(x_pos, counts, color='gray', alpha=0.3)
     ax2.set_ylabel("N Samples")
     ax2.set_xlabel(r"Mass Range [$M_{\odot}$]")
@@ -95,9 +95,9 @@ def run_performance_audit(models_dict, X_test, y_test):
     plt.tight_layout()
     plt.show() 
 
-    # =======================================================
+
     # TEST 2: CONFIDENCE OF ERRORS (Calibration Check)
-    # =======================================================
+
     print("\n[Audit 2] Analyzing Confidence of Misclassifications (Model A)...")
     
     if 'A' in models_dict:
@@ -135,9 +135,8 @@ def run_performance_audit(models_dict, X_test, y_test):
         else:
             print(">> VERDICT: WARNING. The model is confidently wrong on some points.")
 
-    # =======================================================
+
     # TEST 3: THE HIGH-MASS BREAKDOWN
-    # =======================================================
     print("\n[Audit 3] High-Mass Performance (M > 2.0 M_sun)")
     
     mask_high = X_test['Mass'] > 2.0
