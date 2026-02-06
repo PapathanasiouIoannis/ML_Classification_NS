@@ -1,14 +1,4 @@
-# ==============================================================================
-# HEADER: src/physics/get_eos_library.py
-# ==============================================================================
-# Description:
-#   Provides a library of analytic Equation of State (EoS) parameterizations.
-#   - Core Models: Based on Read et al. (2009) and selected from Alkiviadis (2019) piecewise fits (MDI, SLy, APR, etc.)
-#   - Crust Model: Based on Douchin & Haensel (SLy) parameterization.
-#
-#   Uses SymPy to analytically compute derivatives (speed of sound inputs)
-#   and converts them to fast NumPy functions for the ODE solver.
-# ==============================================================================
+
 
 import numpy as np
 from sympy import Symbol, exp, lambdify
@@ -24,11 +14,11 @@ def get_eos_library():
     """
     p = Symbol('p')
     
-    # ==========================================
+
     # 1. CORE MODELS (High Density)
     # ==========================================
     # Analytic fits for Energy Density epsilon(p) [MeV/fm^3]
-    # Parameters derived from Alkiviadis (2019) & Read et al. (2009) constraints.
+    # Parameters derived from Alkiviadis (2019)
     core_exprs = {
             "MDI-1": 4.1844 * p**0.81449 + 95.00135 * p**0.31736,
             "MDI-2": 5.97365 * p**0.77374 + 89.24 * p**0.30993,
@@ -68,10 +58,9 @@ def get_eos_library():
             "APR-1": 0.000719964 * p**1.85898 + 108.975 * p**0.340074,
         }
 
-    # ==========================================
+    
     # 2. MULTI-LAYER CRUST (Low Density)
-    # ==========================================
-    # Based on Douchin & Haensel (SLy) parameterization.
+
     # The pressure ranges for these functions are handled in `const.py` (P_C1, P_C2, etc.)
     
     # Constants for Crust 4 (Log-Polynomial Envelope)
@@ -90,9 +79,9 @@ def get_eos_library():
     # Crust 4: Envelope (Outer Surface)
     crust4 = 10**(c[0] + c[1]*logP + c[2]*logP**2 + c[3]*logP**3 + c[4]*logP**4 + c[5]*logP**5)
 
-    # ==========================================
+
     # 3. LAMBDIFICATION (Symbolic -> Fast Numpy)
-    # ==========================================
+
     
     # Core Functions: Returns tuple (eps_val, dedp_val)
     core_funcs = {k: (lambdify(p, e, 'numpy'), lambdify(p, e.diff(p), 'numpy')) for k, e in core_exprs.items()}
