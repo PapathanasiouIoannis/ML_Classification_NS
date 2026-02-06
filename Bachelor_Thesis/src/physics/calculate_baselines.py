@@ -1,14 +1,4 @@
-# ==============================================================================
-# HEADER: src/physics/calculate_baselines.py
-# ==============================================================================
-# Description:
-#   Calculates the maximum mass for each unperturbed (pure) hadronic model
-#   in the library.
-#
-#   Significance:
-#   These "baseline" maximum masses are required by the mixing workers to 
-#   apply homologous scaling (alpha) correctly. They define the reference 
-#   mass scale for the "Inverse Sampling" technique.
+
 
 
 from src.const import CONSTANTS
