@@ -8,13 +8,8 @@
 #   Significance:
 #   These "baseline" maximum masses are required by the mixing workers to 
 #   apply homologous scaling (alpha) correctly. They define the reference 
-#   mass scale for the "Smart Inverse Sampling" technique.
-#
-# Cleaned & Refactored:
-#   - Integrated `src.const.CONSTANTS` for standard transition pressures.
-#   - Removed hardcoded magic numbers.
-#   - Standardized output formatting.
-# ==============================================================================
+#   mass scale for the "Inverse Sampling" technique.
+
 
 from src.const import CONSTANTS
 from src.physics.get_eos_library import get_eos_library
