@@ -1,12 +1,4 @@
-# ==============================================================================
-# HEADER: src/physics/run_worker_wrapper.py
-# ==============================================================================
-# Description:
-#   Unified entry point for parallel execution via joblib.
-#   Acts as a dispatcher that routes the compute task to the appropriate 
-#   physics generation engine (Hadronic or Quark) based on the task tuple.
-#
-# ==============================================================================
+
 
 from src.physics.worker_hadronic_gen import worker_hadronic_gen
 from src.physics.worker_quark_gen import worker_quark_gen
