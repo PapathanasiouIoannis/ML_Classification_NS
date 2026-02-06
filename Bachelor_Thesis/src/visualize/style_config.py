@@ -1,22 +1,19 @@
 
 import matplotlib.pyplot as plt
 
-# ==========================================
-# 1. COLOR PALETTE
-# ==========================================
-# Optimized forclarity and distinction.
+
 COLORS = {
     'H_main': 'green',     
     'Q_main': 'magenta',   
-    'H_fade': '#228B22',   # Hadronic: Slightly lighter for fills/alpha
-    'Q_fade': '#BA55D3',   # Quark: Medium Orchid for fills/alpha
+    'H_fade': '#228B22',   # Hadronic
+    'Q_fade': '#BA55D3',   # Quark
     'Constraint': 'black', # Observational limits 
     'Guide': 'gray'        # Guide lines / Grids
 }
 
 def set_paper_style():
     """
-    Configures Matplotlib for publication-quality plots.
+    Configures Matplotlib for  plots.
     
     Settings:
     - Font: Sans-serif body, Computer Modern math ($...$).
