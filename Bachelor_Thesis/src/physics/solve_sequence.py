@@ -1,10 +1,4 @@
-# ==============================================================================
-# HEADER: src/physics/solve_sequence.py
-# ==============================================================================
-# Description:
-#   Integrates the TOV equations over a range of central pressures to generate
-#   a full Mass-Radius-Lambda sequence (an EoS curve).
-# ==============================================================================
+
 
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -26,7 +20,7 @@ def solve_sequence(eos_input, is_quark):
     r_min = CONSTANTS['TOV_R_MIN']
     
     # Define pressure grid (log-spaced)
-    # Quark stars need higher starting pressures to overcome vacuum pressure B
+
     n_points = 100
     if is_quark:
         pressures = np.logspace(0.0, 4.0, n_points) 
@@ -41,9 +35,9 @@ def solve_sequence(eos_input, is_quark):
     last_eps_calc = 0.0
 
     for pc in pressures:
-        # ==============================================================
+
         # 1. INITIALIZATION (Finding Epsilon_c from P_c)
-        # ==============================================================
+
         if is_quark:
             # --- GENERALIZED CFL INITIALIZATION ---
             B, Delta_geom, ms_geom = eos_input
@@ -81,7 +75,7 @@ def solve_sequence(eos_input, is_quark):
             # --- HADRONIC INITIALIZATION ---
             fA_e, fA_de, fB_e, fB_de, w, crusts, alpha, P_trans = eos_input
             
-            # SLy Crust Transition Thresholds
+            # Crust Transition Thresholds
             P_c1 = CONSTANTS['P_C1']
             P_c2 = CONSTANTS['P_C2']
             P_c3 = CONSTANTS['P_C3']
@@ -135,9 +129,9 @@ def solve_sequence(eos_input, is_quark):
         if cs2_init > 1.0: cs2_init = 1.0
         if cs2_init < 1e-5: cs2_init = 1e-5
 
-        # ==============================================================
+
         # 2. SURFACE DENSITY CALCULATION (Quark Only)
-        # ==============================================================
+
         if is_quark:
             B, Delta_geom, ms_geom = eos_input
             hc = CONSTANTS['HC']
@@ -157,9 +151,8 @@ def solve_sequence(eos_input, is_quark):
         else:
             eps_surf = 0.0
 
-        # ==============================================================
+
         # 3. INTEGRATION (TOV Solver)
-        # ==============================================================
         # Initial Mass (Approximation for small r_min)
         m_init = (r_min**3) * eps_init * (CONSTANTS['G_CONV'] / 3.0)
         
