@@ -1,16 +1,4 @@
-# ==============================================================================
-# HEADER: src/physics/worker_hadronic_gen.py
-# ==============================================================================
-# Description:
-#   Generates Hadronic Star EoS using "Smart Inverse Sampling".
-#
-#   Method:
-#   1. Selects two parent EoS models from the library.
-#   2. Calculates a mixing weight 'w' and a target mass scaling 'delta'.
-#   3. Determines 'delta' such that the resulting star lands in a specific 
-#      mass range (defined in CONSTANTS), minimizing rejection rate.
-#   4. Solves the TOV equations and applies strict causality/radius filters.
-# ==============================================================================
+
 
 import numpy as np
 from scipy.interpolate import interp1d, PchipInterpolator
@@ -58,10 +46,7 @@ def worker_hadronic_gen(n_curves_to_gen, baselines, seed_offset, batch_idx):
 
     while curves_found < n_curves_to_gen and attempts < max_attempts:
         attempts += 1
-        
-        # ==============================================================
-        # 1. SMART PARAMETER SELECTION
-        # ==============================================================
+
         # Pick two parent models and a mixing weight
         nA, nB = np.random.choice(model_names, 2, replace=False)
         w = np.random.uniform(0.20, 0.80)
@@ -91,16 +76,16 @@ def worker_hadronic_gen(n_curves_to_gen, baselines, seed_offset, batch_idx):
         # Sample delta from the VALID intersection only
         delta = np.random.uniform(effective_min, effective_max)
         
-        # ==============================================================
+
         # 2. SETUP PHYSICS
-        # ==============================================================
+
         target_m = base_max_m * (1.0 + delta)
         alpha = (base_max_m / target_m)**2
         
         fA = core_lib[nA]
         fB = core_lib[nB]
         
-        # TRANSITION JITTER (Gap Filling)
+
         # Apply +/- 20% noise to blur the discrete parent transition pressures
         p_base_mix = w * transition_map[nA] + (1-w) * transition_map[nB]
         p_jitter = np.random.uniform(0.80, 1.20)
@@ -109,9 +94,9 @@ def worker_hadronic_gen(n_curves_to_gen, baselines, seed_offset, batch_idx):
         # EoS Input Tuple: (fA, dfA, fB, dfB, w, crusts, alpha, p_trans)
         eos_input = (fA[0], fA[1], fB[0], fB[1], w, crust_funcs, alpha, p_trans_mix)
         
-        # ==============================================================
+        
         # 3. SOLVE STRUCTURE
-        # ==============================================================
+
         curve, max_m = solve_sequence(eos_input, is_quark=False)
 
         # Final Verification Checks
@@ -119,8 +104,8 @@ def worker_hadronic_gen(n_curves_to_gen, baselines, seed_offset, batch_idx):
         
         c_arr = np.array(curve)
         
-        # --- FILTER: EARLY CAUSALITY CLAMP ---
-        # Reject if Speed of Sound hits 1.0 (clamped) at low densities (< 1000 MeV/fm^3).
+
+        # Reject if Speed of Sound hits 1.0 (clamped) at low densities 
         # Column 4: Eps_Central, Column 5: CS2_Central
         eps_limit = CONSTANTS['CAUSALITY_EPS_LIMIT']
         violation_mask = (c_arr[:, 5] >= 0.999) & (c_arr[:, 4] < eps_limit)
@@ -128,24 +113,23 @@ def worker_hadronic_gen(n_curves_to_gen, baselines, seed_offset, batch_idx):
         if np.any(violation_mask): continue
         
         # --- FILTER: RADIUS CAP ---
-        # Discard stars that are too "fluffy" (Radius > 14km) at canonical masses (> 1.4).
-        # This keeps the hadronic distribution realistic.
+
         mask_canonical = c_arr[:, 0] > 1.4
         if np.any(mask_canonical):
             if np.max(c_arr[mask_canonical, 1]) > 14.0: 
                 continue
         
-        # Sequence start check (Must resolve low mass branch)
+
         if c_arr[0,0] > 1.4: continue
         
-        # ==============================================================
+
         # 4. FEATURE EXTRACTION
-        # ==============================================================
+
         try:
             # Sort by Mass for interpolation
             c_arr = c_arr[c_arr[:,0].argsort()] 
             
-            # Interpolators (PCHIP is strictly monotonic/safer for M-R curves)
+
             f_R = PchipInterpolator(c_arr[:,0], c_arr[:,1])
             f_CS2 = interp1d(c_arr[:,0], c_arr[:,5], kind='linear', fill_value="extrapolate")
             
@@ -167,9 +151,9 @@ def worker_hadronic_gen(n_curves_to_gen, baselines, seed_offset, batch_idx):
         except Exception: 
             continue
 
-        # ==============================================================
+
         # 5. SAVE DATA
-        # ==============================================================
+
         curves_found += 1
         curve_id = f"H_{batch_idx}_{attempts}"
         
