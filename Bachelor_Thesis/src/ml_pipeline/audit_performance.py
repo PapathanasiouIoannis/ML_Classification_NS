@@ -9,9 +9,9 @@ from src.visualize.style_config import set_paper_style
 
 def run_performance_audit(models_dict, X_test, y_test):
     set_paper_style()
-    print("\n=========================================================")
+    
     print("   PERFORMANCE AUDIT: STRESS TESTING THE MODELS")
-    print("=========================================================")
+
 
     # Define the models we care about comparing
     target_models = ['Geo', 'A', 'D']
