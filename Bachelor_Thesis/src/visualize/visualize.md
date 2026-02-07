@@ -54,14 +54,14 @@ This script verifies that the generated Quark Star models reside within the theo
 
 ### Physics and Equations
 For Strange Quark Matter to be the true ground state of strong interactions (the Bodmer-Witten hypothesis), it must be:
-1.  **Stable relative to Iron:** The energy per baryon at zero pressure must be less than $930$ MeV. This sets a **lower bound** on the Bag Constant$B$.
-2.  **Unstable relative to Neutrons (at low density):** Ordinary nuclei must not spontaneously decay into quark matter. This sets an **upper bound** on$B$, which depends on the gap $\Delta$:
+1.  **Stable relative to Iron:** The energy per baryon at zero pressure must be less than $930$ MeV. This sets a **lower bound** on the Bag Constant $B$.
+2.  **Unstable relative to Neutrons (at low density):** Ordinary nuclei must not spontaneously decay into quark matter. This sets an **upper bound** on $B$, which depends on the gap $\Delta$:
    $B_{max}(\Delta) \approx \frac{3}{4\pi^2}\mu_n^4 + \frac{3}{\pi^2}\Delta^2 \mu_n^2$
     where$\mu_n$is the neutron chemical potential.
 
 ### Algorithm
 *   The unique Quark models are filtered from the dataset.
-*   They are scattered on a$B$vs.$\Delta$plane.
+*   They are scattered on a $B$ vs. $\Delta$ plane.
 *   Analytic stability boundaries are calculated and overlaid as shaded regions ("Forbidden Zones").
 *   The plot confirms that all generated points fall within the allowed triangle of stability.
 
@@ -78,9 +78,9 @@ This script demonstrates the fundamental difference in surface boundary conditio
 
 ### Algorithm
 *   The surface density ($\epsilon_{surf}$) is extracted for all stars.
-*   A Kernel Density Estimation (KDE) is plotted for the Quark population, showing a peak around$400-600$MeV/fm$^3$.
+*   A Kernel Density Estimation (KDE) is plotted for the Quark population, showing a peak around $400-600$ MeV/fm $^3$ .
 *   The Hadronic population is represented as a vertical line at $\epsilon=0$.
-*   The region between$0$and the minimum quark density is shaded as the "Forbidden Region."
+*   The region between $0$ and the minimum quark density is shaded as the "Forbidden Region."
 
 ---
 
