@@ -36,7 +36,7 @@ The internal composition of neutron stars remains one of the greatest unknowns i
 *   **Calibration:** Isotonic regression ensures output probabilities are statistically reliable.
 
 ### 3. Visualization Suite (`src/visualize`)
-*   Produces publication-quality plots (PDF/HTML).
+*   Produces  plots (PDF/HTML).
 *   **Grand Summary Triptych:** EoS bands, M-R Manifolds, and Tidal trends.
 *   **Diagnostics:** ROC curves, Confusion Maps, and Partial Dependence Plots.
 *   **3D Manifolds:** Interactive visualization of the $M-R-\Lambda$ phase space.
