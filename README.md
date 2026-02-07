@@ -79,10 +79,11 @@ python main.py
 
 *Note: The first run will trigger the parallel generation of 20,000 EoS curves, which may take 1-2 hours depending on CPU cores. Subsequent runs will load the cached `data/thesis_dataset.csv`.*
 
-## 📊 Key Results
+##  Key Results
 
 ### Classification Accuracy
 The analysis confirms that **Tidal Deformability** is the critical discriminator required to break the geometric degeneracy.
+**Note that these results may differ slightly due to ongoing testing.**
 
 | Model | Features | Accuracy | AUC |
 | :--- | :--- | :--- | :--- |
@@ -97,7 +98,7 @@ Applying the model to real candidates via Monte Carlo sampling ($N=5000$):
 *   **HESS J1731-347:** $P(\text{Quark}) \approx 68.3\%$ (Likely **Quark** due to the "Lightness Problem").
 *   **PSR J0740+6620:** $P(\text{Quark}) \approx 33.1\%$ (Likely Hadronic).
 
-## 👥 Credits & Acknowledgements
+##  Credits & Acknowledgements
 
 **Author:** Ioannis Papathanasiou 
 **Supervisors:** 
