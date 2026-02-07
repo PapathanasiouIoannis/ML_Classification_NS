@@ -61,7 +61,7 @@ The internal composition of neutron stars remains one of the greatest unknowns i
 1.  Clone the repository:
     ```bash
     git clone https://github.com/PapathanasiouIoannis/ML_Classification_NS.git
-    cd neutron-star-ml
+    cd ML_Classification_NS
     ```
 
 2.  Install dependencies:
