@@ -73,13 +73,13 @@ This script demonstrates the fundamental difference in surface boundary conditio
 ### Physics and Equations
 *   **Hadronic Stars:** Have a crust made of iron nuclei. The density at the surface drops to zero (or negligible atomic density) as pressure vanishes.
    $\epsilon_{surf} \approx 0$
-*   **Quark Stars:** Are "self-bound" by the strong interaction. At the surface ($P=0$), the density remains finite and high, approximately four times the Bag Constant.
+*   **Quark Stars:** Are "self-bound" by the strong interaction. At the surface ( $P=0$ ), the density remains finite and high, approximately four times the Bag Constant.
    $\epsilon_{surf} \approx 4B$
 
 ### Algorithm
 *   The surface density ($\epsilon_{surf}$) is extracted for all stars.
 *   A Kernel Density Estimation (KDE) is plotted for the Quark population, showing a peak around$400-600$MeV/fm$^3$.
-*   The Hadronic population is represented as a vertical line at$\epsilon=0$.
+*   The Hadronic population is represented as a vertical line at $\epsilon=0$.
 *   The region between$0$and the minimum quark density is shaded as the "Forbidden Region."
 
 ---
@@ -93,10 +93,10 @@ This is the primary result figure for the thesis. It aggregates the entire datas
 
 ### Physics and Equations
 The plot consists of three panels corresponding to the key equations of stellar structure:
-1.  **Equation of State:**$P$vs.$\epsilon$(Log-Log). Shows the stiffness of matter.
+1.  **Equation of State:** $P$vs.$\epsilon$ (Log-Log). Shows the stiffness of matter.
 2.  **Mass-Radius Relation:**$M$vs.$R$. Defined by the TOV equilibrium.
    $\frac{dP}{dr} = -\frac{G\epsilon m}{r^2} \dots$
-3.  **Tidal Deformability:**$\Lambda$vs.$M$. Defined by the Riccati equation for metric perturbation.
+3.  **Tidal Deformability:** $\Lambda$vs.$M$ . Defined by the Riccati equation for metric perturbation.
 
 ### Algorithm
 *   **Interpolation:** Because every star has a different central pressure, the curves are interpolated onto a common grid of densities and masses.
@@ -129,7 +129,7 @@ This script visualizes the "Phase Space" of neutron stars using 2D probability d
 ## plot_3d_separation.py
 
 ### Role in the Project
-This script extends the manifold visualization into 3D space, plotting Mass ($M$), Radius ($R$), and Tidal Deformability ($\Lambda$) simultaneously. It proves that while populations may overlap in 2D projections (e.g.,$M-R$), they are often separable in the full 3D higher-dimensional space.
+This script extends the manifold visualization into 3D space, plotting Mass ( $M$ ), Radius ( $R$ ), and Tidal Deformability ($\Lambda$) simultaneously. It proves that while populations may overlap in 2D projections (e.g.,$M-R$), they are often separable in the full 3D higher-dimensional space.
 
 ### Algorithm
 *   A 3D scatter plot is generated.
@@ -158,14 +158,14 @@ This script visualizes the internal **microphysical** phase space, rather than t
 This script investigates the "Topological Phase Transition." It plots the local slope of the Mass-Radius curve ($dR/dM$) against the central speed of sound ($c_s^2$).
 
 ### Physics and Equations
-*   **Hadronic Branch:** Typically exhibits a negative slope ($dR/dM < 0$). As mass increases, the star compresses and the radius shrinks.
-*   **Quark Branch:** Often exhibits a positive slope ($dR/dM > 0$) due to the stabilizing effect of the vacuum pressure$B$.
-*   **Stability Criterion:** A slope of zero ($dR/dM = 0$) marks the transition to instability (maximum mass).
+*   **Hadronic Branch:** Typically exhibits a negative slope ( $dR/dM < 0$ ). As mass increases, the star compresses and the radius shrinks.
+*   **Quark Branch:** Often exhibits a positive slope ( $dR/dM > 0$ ) due to the stabilizing effect of the vacuum pressure$B$.
+*   **Stability Criterion:** A slope of zero ( $dR/dM = 0$ ) marks the transition to instability (maximum mass).
 
 ### Algorithm
 *   The dataset is filtered to extract slope and sound speed values at specific canonical masses ($1.4, 1.6, 1.8, 2.0 M_{\odot}$).
 *   A scatter plot is generated.
-*   Vertical lines mark the conformal limit ($c_s^2 = 1/3$) and causal limit ($c_s^2 = 1$).
+*   Vertical lines mark the conformal limit ( $c_s^2 = 1/3$ )  and causal limit ( $c_s^2 = 1$ ).
 *   The plot reveals distinct clustering, showing that Quark stars preserve stability (positive slope) even at high sound speeds.
 
 ## plot_slope_vs_radius.py
@@ -203,7 +203,7 @@ This script performs deeper analysis into specific failure modes and physical co
     *   Incorrect predictions are highlighted (False Positives and False Negatives).
     *   This reveals the "Geography of Failure"—showing that errors are concentrated at the interface where the two populations overlap.
 2.  **Universal Relations (I-Love-Q):**
-    *   Plots Compactness ($C = GM/Rc^2$) against Tidal Deformability ($\Lambda$).
+    *   Plots Compactness ( $C = GM/Rc^2$ )  against Tidal Deformability ( $\Lambda$ ).
     *   Checks if the generated stars follow the expected universal tracks for compact objects.
 
 ## plot_pdp.py
@@ -223,7 +223,7 @@ This script ranks the importance of different physical features and visualizes t
 
 ### Figures Produced
 1.  **Feature Importance:** A bar chart comparing the "Gini Importance" of macroscopic observables (Mass, Radius) versus microscopic parameters (Slope, Sound Speed). It quantitatively shows that topological features are highly predictive.
-2.  **Speed of Sound Trajectories:** Plots the$c_s^2$vs$\epsilon$curves and overlays the actual central conditions of the stars. This visualizes where the population lives relative to the conformal limit ($c_s^2=1/3$).
+2.  **Speed of Sound Trajectories:** Plots the $c_s^2$vs$\epsilon$ curves and overlays the actual central conditions of the stars. This visualizes where the population lives relative to the conformal limit ( $c_s^2=1/3$ ).
 
 ## plot_corner.py
 
@@ -244,7 +244,7 @@ This script explicitly links the microscopic world to the macroscopic world. It 
 ### Figures Produced
 1.  **Density vs. Radius:** Shows how central compression dictates stellar size.
 2.  **Stiffness vs. Max Mass:** Shows how the speed of sound ($c_s^2$) correlates with the maximum mass capacity of the star.
-3.  **Slope vs. Tidal Deformability:** Links the topological stability derivative to the tidal response$\Lambda$.
+3.  **Slope vs. Tidal Deformability:** Links the topological stability derivative to the tidal response $\Lambda$.
 
 ---
 
