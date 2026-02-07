@@ -37,9 +37,9 @@ This script visualizes the "Priors" of the simulation. It generates a spaghetti 
 ### Physics and Equations
 The Equation of State relates pressure $P$ to energy density $\epsilon$. Two fundamental physical limits are plotted for reference:
 1.  **Causality Limit:** The stiffest possible matter allowed by special relativity, where the speed of sound equals the speed of light ($c_s = 1$).
-    $$ P = \epsilon $$
+    $ P = \epsilon $
 2.  **Conformal Limit:** The theoretical asymptotic limit for non-interacting quarks at infinite density.
-    $$ P = \frac{1}{3}\epsilon \quad \implies \quad c_s^2 = \frac{1}{3} $$
+    $ P = \frac{1}{3}\epsilon \quad \implies \quad c_s^2 = \frac{1}{3} $
 
 ### Algorithm
 *   A set of random seeds is selected.
@@ -56,7 +56,7 @@ This script verifies that the generated Quark Star models reside within the theo
 For Strange Quark Matter to be the true ground state of strong interactions (the Bodmer-Witten hypothesis), it must be:
 1.  **Stable relative to Iron:** The energy per baryon at zero pressure must be less than $930$ MeV. This sets a **lower bound** on the Bag Constant $B$.
 2.  **Unstable relative to Neutrons (at low density):** Ordinary nuclei must not spontaneously decay into quark matter. This sets an **upper bound** on $B$, which depends on the gap $\Delta$:
-    $$ B_{max}(\Delta) \approx \frac{3}{4\pi^2}\mu_n^4 + \frac{3}{\pi^2}\Delta^2 \mu_n^2 $$
+    $ B_{max}(\Delta) \approx \frac{3}{4\pi^2}\mu_n^4 + \frac{3}{\pi^2}\Delta^2 \mu_n^2 $
     where $\mu_n$ is the neutron chemical potential.
 
 ### Algorithm
@@ -72,9 +72,9 @@ This script demonstrates the fundamental difference in surface boundary conditio
 
 ### Physics and Equations
 *   **Hadronic Stars:** Have a crust made of iron nuclei. The density at the surface drops to zero (or negligible atomic density) as pressure vanishes.
-    $$ \epsilon_{surf} \approx 0 $$
+    $ \epsilon_{surf} \approx 0 $
 *   **Quark Stars:** Are "self-bound" by the strong interaction. At the surface ($P=0$), the density remains finite and high, approximately four times the Bag Constant.
-    $$ \epsilon_{surf} \approx 4B $$
+    $ \epsilon_{surf} \approx 4B $
 
 ### Algorithm
 *   The surface density ($\epsilon_{surf}$) is extracted for all stars.
@@ -95,7 +95,7 @@ This is the primary result figure for the thesis. It aggregates the entire datas
 The plot consists of three panels corresponding to the key equations of stellar structure:
 1.  **Equation of State:** $P$ vs. $\epsilon$ (Log-Log). Shows the stiffness of matter.
 2.  **Mass-Radius Relation:** $M$ vs. $R$. Defined by the TOV equilibrium.
-    $$ \frac{dP}{dr} = -\frac{G\epsilon m}{r^2} \dots $$
+    $ \frac{dP}{dr} = -\frac{G\epsilon m}{r^2} \dots $
 3.  **Tidal Deformability:** $\Lambda$ vs. $M$. Defined by the Riccati equation for metric perturbation.
 
 ### Algorithm
@@ -223,7 +223,7 @@ This script ranks the importance of different physical features and visualizes t
 
 ### Figures Produced
 1.  **Feature Importance:** A bar chart comparing the "Gini Importance" of macroscopic observables (Mass, Radius) versus microscopic parameters (Slope, Sound Speed). It quantitatively shows that topological features are highly predictive.
-2.  **Speed of Sound Trajectories:** Plots the $c_s^2$ vs $\epsilon$ curves ("Roads") and overlays the actual central conditions of the stars ("Cities"). This visualizes where the population lives relative to the conformal limit ($c_s^2=1/3$).
+2.  **Speed of Sound Trajectories:** Plots the $c_s^2$ vs $\epsilon$ curves and overlays the actual central conditions of the stars. This visualizes where the population lives relative to the conformal limit ($c_s^2=1/3$).
 
 ## plot_corner.py
 
