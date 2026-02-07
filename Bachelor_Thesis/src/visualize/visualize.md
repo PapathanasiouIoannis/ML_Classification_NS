@@ -35,17 +35,17 @@ Instead of default settings, specific parameters are enforced to maximize readab
 This script visualizes the "Priors" of the simulation. It generates a spaghetti plot of Pressure versus Energy Density ($P(\epsilon)$) for a random subset of the generated models. This confirms that the synthetic dataset covers the physically relevant phase space and respects fundamental bounds.
 
 ### Physics and Equations
-The Equation of State relates pressure $P$ to energy density $\epsilon$. Two fundamental physical limits are plotted for reference:
+The Equation of State relates pressure$P$to energy density$\epsilon$. Two fundamental physical limits are plotted for reference:
 1.  **Causality Limit:** The stiffest possible matter allowed by special relativity, where the speed of sound equals the speed of light ($c_s = 1$).
-    $ P = \epsilon $
+   $P = \epsilon$
 2.  **Conformal Limit:** The theoretical asymptotic limit for non-interacting quarks at infinite density.
-    $ P = \frac{1}{3}\epsilon \quad \implies \quad c_s^2 = \frac{1}{3} $
+   $P = \frac{1}{3}\epsilon \quad \implies \quad c_s^2 = \frac{1}{3}$
 
 ### Algorithm
 *   A set of random seeds is selected.
-*   The `worker_get_plot_curve` module is invoked in parallel to generate high-resolution $P-\epsilon$ grids for both Hadronic and Quark models.
+*   The `worker_get_plot_curve` module is invoked in parallel to generate high-resolution$P-\epsilon$grids for both Hadronic and Quark models.
 *   The curves are plotted on a log-log scale.
-*   The theoretical limits are overlaid to verify that no generated model violates causality (crosses the $P=\epsilon$ line).
+*   The theoretical limits are overlaid to verify that no generated model violates causality (crosses the$P=\epsilon$line).
 
 ## plot_stability_window.py
 
@@ -54,14 +54,14 @@ This script verifies that the generated Quark Star models reside within the theo
 
 ### Physics and Equations
 For Strange Quark Matter to be the true ground state of strong interactions (the Bodmer-Witten hypothesis), it must be:
-1.  **Stable relative to Iron:** The energy per baryon at zero pressure must be less than $930$ MeV. This sets a **lower bound** on the Bag Constant $B$.
-2.  **Unstable relative to Neutrons (at low density):** Ordinary nuclei must not spontaneously decay into quark matter. This sets an **upper bound** on $B$, which depends on the gap $\Delta$:
-    $ B_{max}(\Delta) \approx \frac{3}{4\pi^2}\mu_n^4 + \frac{3}{\pi^2}\Delta^2 \mu_n^2 $
-    where $\mu_n$ is the neutron chemical potential.
+1.  **Stable relative to Iron:** The energy per baryon at zero pressure must be less than$930$MeV. This sets a **lower bound** on the Bag Constant$B$.
+2.  **Unstable relative to Neutrons (at low density):** Ordinary nuclei must not spontaneously decay into quark matter. This sets an **upper bound** on$B$, which depends on the gap$\Delta$:
+   $B_{max}(\Delta) \approx \frac{3}{4\pi^2}\mu_n^4 + \frac{3}{\pi^2}\Delta^2 \mu_n^2$
+    where$\mu_n$is the neutron chemical potential.
 
 ### Algorithm
 *   The unique Quark models are filtered from the dataset.
-*   They are scattered on a $B$ vs. $\Delta$ plane.
+*   They are scattered on a$B$vs.$\Delta$plane.
 *   Analytic stability boundaries are calculated and overlaid as shaded regions ("Forbidden Zones").
 *   The plot confirms that all generated points fall within the allowed triangle of stability.
 
@@ -72,15 +72,15 @@ This script demonstrates the fundamental difference in surface boundary conditio
 
 ### Physics and Equations
 *   **Hadronic Stars:** Have a crust made of iron nuclei. The density at the surface drops to zero (or negligible atomic density) as pressure vanishes.
-    $ \epsilon_{surf} \approx 0 $
+   $\epsilon_{surf} \approx 0$
 *   **Quark Stars:** Are "self-bound" by the strong interaction. At the surface ($P=0$), the density remains finite and high, approximately four times the Bag Constant.
-    $ \epsilon_{surf} \approx 4B $
+   $\epsilon_{surf} \approx 4B$
 
 ### Algorithm
 *   The surface density ($\epsilon_{surf}$) is extracted for all stars.
-*   A Kernel Density Estimation (KDE) is plotted for the Quark population, showing a peak around $400-600$ MeV/fm$^3$.
-*   The Hadronic population is represented as a vertical line at $\epsilon=0$.
-*   The region between $0$ and the minimum quark density is shaded as the "Forbidden Region."
+*   A Kernel Density Estimation (KDE) is plotted for the Quark population, showing a peak around$400-600$MeV/fm$^3$.
+*   The Hadronic population is represented as a vertical line at$\epsilon=0$.
+*   The region between$0$and the minimum quark density is shaded as the "Forbidden Region."
 
 ---
 
@@ -89,18 +89,18 @@ This script demonstrates the fundamental difference in surface boundary conditio
 ## plot_grand_summary.py
 
 ### Role in the Project
-This is the primary result figure for the thesis. It aggregates the entire dataset into three panels, visualizing the statistical properties of the simulated population with $5^{th}-95^{th}$ percentile confidence bands.
+This is the primary result figure for the thesis. It aggregates the entire dataset into three panels, visualizing the statistical properties of the simulated population with$5^{th}-95^{th}$percentile confidence bands.
 
 ### Physics and Equations
 The plot consists of three panels corresponding to the key equations of stellar structure:
-1.  **Equation of State:** $P$ vs. $\epsilon$ (Log-Log). Shows the stiffness of matter.
-2.  **Mass-Radius Relation:** $M$ vs. $R$. Defined by the TOV equilibrium.
-    $ \frac{dP}{dr} = -\frac{G\epsilon m}{r^2} \dots $
-3.  **Tidal Deformability:** $\Lambda$ vs. $M$. Defined by the Riccati equation for metric perturbation.
+1.  **Equation of State:**$P$vs.$\epsilon$(Log-Log). Shows the stiffness of matter.
+2.  **Mass-Radius Relation:**$M$vs.$R$. Defined by the TOV equilibrium.
+   $\frac{dP}{dr} = -\frac{G\epsilon m}{r^2} \dots$
+3.  **Tidal Deformability:**$\Lambda$vs.$M$. Defined by the Riccati equation for metric perturbation.
 
 ### Algorithm
 *   **Interpolation:** Because every star has a different central pressure, the curves are interpolated onto a common grid of densities and masses.
-*   **Statistics:** At each grid point, the median, $5^{th}$ percentile, and $95^{th}$ percentile are calculated.
+*   **Statistics:** At each grid point, the median,$5^{th}$percentile, and$95^{th}$percentile are calculated.
 *   **Plotting:** These statistics are rendered as shaded confidence bands (solid for Hadronic, hatched for Quark).
 *   **Constraints:** Observational limits (GW170817, PSR J0740) are overlaid to show consistency with reality.
 
@@ -129,7 +129,7 @@ This script visualizes the "Phase Space" of neutron stars using 2D probability d
 ## plot_3d_separation.py
 
 ### Role in the Project
-This script extends the manifold visualization into 3D space, plotting Mass ($M$), Radius ($R$), and Tidal Deformability ($\Lambda$) simultaneously. It proves that while populations may overlap in 2D projections (e.g., $M-R$), they are often separable in the full 3D higher-dimensional space.
+This script extends the manifold visualization into 3D space, plotting Mass ($M$), Radius ($R$), and Tidal Deformability ($\Lambda$) simultaneously. It proves that while populations may overlap in 2D projections (e.g.,$M-R$), they are often separable in the full 3D higher-dimensional space.
 
 ### Algorithm
 *   A 3D scatter plot is generated.
@@ -159,7 +159,7 @@ This script investigates the "Topological Phase Transition." It plots the local 
 
 ### Physics and Equations
 *   **Hadronic Branch:** Typically exhibits a negative slope ($dR/dM < 0$). As mass increases, the star compresses and the radius shrinks.
-*   **Quark Branch:** Often exhibits a positive slope ($dR/dM > 0$) due to the stabilizing effect of the vacuum pressure $B$.
+*   **Quark Branch:** Often exhibits a positive slope ($dR/dM > 0$) due to the stabilizing effect of the vacuum pressure$B$.
 *   **Stability Criterion:** A slope of zero ($dR/dM = 0$) marks the transition to instability (maximum mass).
 
 ### Algorithm
@@ -171,10 +171,10 @@ This script investigates the "Topological Phase Transition." It plots the local 
 ## plot_slope_vs_radius.py
 
 ### Role in the Project
-This script visualizes the slope $dR/dM$ explicitly against the Radius. It demonstrates that for a fixed radius, the two types of matter respond differently to the addition of mass.
+This script visualizes the slope$dR/dM$explicitly against the Radius. It demonstrates that for a fixed radius, the two types of matter respond differently to the addition of mass.
 
 ### Algorithm
-*   Data is extracted at fixed mass steps (e.g., $1.4 M_{\odot}$).
+*   Data is extracted at fixed mass steps (e.g.,$1.4 M_{\odot}$).
 *   Slope is plotted on the Y-axis, Radius on the X-axis.
 *   The "Zero Slope" line is drawn to separate the standard branch from the stable branch.
 
@@ -212,7 +212,7 @@ This script performs deeper analysis into specific failure modes and physical co
 This script generates Partial Dependence Plots (PDP) to interpret the "Black Box" of the Random Forest.
 
 ### Algorithm
-*   The marginal effect of a single feature (e.g., Radius) on the predicted probability $P(\text{Quark})$ is computed by integrating out all other features.
+*   The marginal effect of a single feature (e.g., Radius) on the predicted probability$P(\text{Quark})$is computed by integrating out all other features.
 *   **Model A (Observables):** Shows how probability changes with Mass and Radius.
 *   **Model D (Physics):** Shows how probability changes with Sound Speed and Slope. This confirms that the model has learned the correct physical associations (e.g., high sound speed increases the probability of being a Quark star).
 
@@ -223,7 +223,7 @@ This script ranks the importance of different physical features and visualizes t
 
 ### Figures Produced
 1.  **Feature Importance:** A bar chart comparing the "Gini Importance" of macroscopic observables (Mass, Radius) versus microscopic parameters (Slope, Sound Speed). It quantitatively shows that topological features are highly predictive.
-2.  **Speed of Sound Trajectories:** Plots the $c_s^2$ vs $\epsilon$ curves and overlays the actual central conditions of the stars. This visualizes where the population lives relative to the conformal limit ($c_s^2=1/3$).
+2.  **Speed of Sound Trajectories:** Plots the$c_s^2$vs$\epsilon$curves and overlays the actual central conditions of the stars. This visualizes where the population lives relative to the conformal limit ($c_s^2=1/3$).
 
 ## plot_corner.py
 
@@ -244,7 +244,7 @@ This script explicitly links the microscopic world to the macroscopic world. It 
 ### Figures Produced
 1.  **Density vs. Radius:** Shows how central compression dictates stellar size.
 2.  **Stiffness vs. Max Mass:** Shows how the speed of sound ($c_s^2$) correlates with the maximum mass capacity of the star.
-3.  **Slope vs. Tidal Deformability:** Links the topological stability derivative to the tidal response $\Lambda$.
+3.  **Slope vs. Tidal Deformability:** Links the topological stability derivative to the tidal response$\Lambda$.
 
 ---
 
