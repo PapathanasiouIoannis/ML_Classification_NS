@@ -1,7 +1,7 @@
 # Visualization Suite Documentation
 
 ## Overview
-This document details the visualization modules used in the thesis project. These scripts transform raw simulation data and machine learning predictions into publication-quality figures. The visualization suite is divided into three main categories:
+This document details the visualization modules used in the thesis project. These scripts transform raw simulation data and machine learning predictions into figures. The visualization suite is divided into three main categories:
 1.  **Physics Verification:** validating the generated Equations of State (EoS) against theoretical constraints.
 2.  **Manifold Visualization:** mapping the distributions of stars in macroscopic and microscopic phase spaces.
 3.  **Machine Learning Diagnostics:** interpreting the performance and decision-making processes of the classifiers.
@@ -13,7 +13,7 @@ This document details the visualization modules used in the thesis project. Thes
 ## style_config.py
 
 ### Role in the Project
-This script establishes the global graphical standards for the entire project. It ensures that all figures maintain a consistent, academic aesthetic suitable for inclusion in a LaTeX thesis or scientific journal.
+This script establishes the global graphical standards for the entire project. 
 
 ### Design Standards
 Instead of default settings, specific parameters are enforced to maximize readability and compatibility:
@@ -32,7 +32,7 @@ Instead of default settings, specific parameters are enforced to maximize readab
 ## plot_theoretical_eos.py
 
 ### Role in the Project
-This script visualizes the "Priors" of the simulation. It generates a spaghetti plot of Pressure versus Energy Density ($P(\epsilon)$) for a random subset of the generated models. This confirms that the synthetic dataset covers the physically relevant phase space and respects fundamental bounds.
+This script visualizes the "Priors" of the simulation. It generates a spaghetti plot of Pressure versus Energy Density ( $P(\epsilon)$ ) for a random subset of the generated models. This confirms that the synthetic dataset covers the physically relevant phase space and respects fundamental bounds.
 
 ### Physics and Equations
 The Equation of State relates pressure$P$to energy density$\epsilon$. Two fundamental physical limits are plotted for reference:
