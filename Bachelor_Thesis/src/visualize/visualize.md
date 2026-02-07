@@ -45,7 +45,7 @@ The Equation of State relates pressure$P$to energy density$\epsilon$. Two fundam
 *   A set of random seeds is selected.
 *   The `worker_get_plot_curve` module is invoked in parallel to generate high-resolution$P-\epsilon$grids for both Hadronic and Quark models.
 *   The curves are plotted on a log-log scale.
-*   The theoretical limits are overlaid to verify that no generated model violates causality (crosses the$P=\epsilon$line).
+*   The theoretical limits are overlaid to verify that no generated model violates causality (crosses the $P=\epsilon$ line).
 
 ## plot_stability_window.py
 
@@ -54,8 +54,8 @@ This script verifies that the generated Quark Star models reside within the theo
 
 ### Physics and Equations
 For Strange Quark Matter to be the true ground state of strong interactions (the Bodmer-Witten hypothesis), it must be:
-1.  **Stable relative to Iron:** The energy per baryon at zero pressure must be less than$930$MeV. This sets a **lower bound** on the Bag Constant$B$.
-2.  **Unstable relative to Neutrons (at low density):** Ordinary nuclei must not spontaneously decay into quark matter. This sets an **upper bound** on$B$, which depends on the gap$\Delta$:
+1.  **Stable relative to Iron:** The energy per baryon at zero pressure must be less than $930$ MeV. This sets a **lower bound** on the Bag Constant$B$.
+2.  **Unstable relative to Neutrons (at low density):** Ordinary nuclei must not spontaneously decay into quark matter. This sets an **upper bound** on$B$, which depends on the gap $\Delta$:
    $B_{max}(\Delta) \approx \frac{3}{4\pi^2}\mu_n^4 + \frac{3}{\pi^2}\Delta^2 \mu_n^2$
     where$\mu_n$is the neutron chemical potential.
 
@@ -89,18 +89,18 @@ This script demonstrates the fundamental difference in surface boundary conditio
 ## plot_grand_summary.py
 
 ### Role in the Project
-This is the primary result figure for the thesis. It aggregates the entire dataset into three panels, visualizing the statistical properties of the simulated population with$5^{th}-95^{th}$percentile confidence bands.
+This is the primary result figure for the thesis. It aggregates the entire dataset into three panels, visualizing the statistical properties of the simulated population with $5^{th}-95^{th}$ percentile confidence bands.
 
 ### Physics and Equations
 The plot consists of three panels corresponding to the key equations of stellar structure:
 1.  **Equation of State:** $P$vs.$\epsilon$ (Log-Log). Shows the stiffness of matter.
-2.  **Mass-Radius Relation:**$M$vs.$R$. Defined by the TOV equilibrium.
+2.  **Mass-Radius Relation:** $M$vs.$R$ . Defined by the TOV equilibrium.
    $\frac{dP}{dr} = -\frac{G\epsilon m}{r^2} \dots$
-3.  **Tidal Deformability:** $\Lambda$vs.$M$ . Defined by the Riccati equation for metric perturbation.
+3.  **Tidal Deformability:** $\Lambda$ vs. $M$ . Defined by the Riccati equation for metric perturbation.
 
 ### Algorithm
 *   **Interpolation:** Because every star has a different central pressure, the curves are interpolated onto a common grid of densities and masses.
-*   **Statistics:** At each grid point, the median,$5^{th}$percentile, and$95^{th}$percentile are calculated.
+*   **Statistics:** At each grid point, the median, $5^{th}$ percentile, and $95^{th}$ percentile are calculated.
 *   **Plotting:** These statistics are rendered as shaded confidence bands (solid for Hadronic, hatched for Quark).
 *   **Constraints:** Observational limits (GW170817, PSR J0740) are overlaid to show consistency with reality.
 
